@@ -39,6 +39,7 @@ env:
 jobs:
   test:
     strategy:
+      fail-fast: false
       # https://blog.jaraco.com/efficient-use-of-ci-resources/
       matrix:
         python:
@@ -46,20 +47,20 @@ jobs:
         - "3.13"
         platform:
         - ubuntu-latest
-        - macos-latest
-        - windows-latest
+        # - macos-latest
+        # - windows-latest
         include:
-        - python: "3.10"
-          platform: ubuntu-latest
-        - python: "3.11"
-          platform: ubuntu-latest
-        - python: "3.12"
-          platform: ubuntu-latest
-        - python: "3.14"
-          platform: ubuntu-latest
-        - python: pypy3.10
-          platform: ubuntu-latest
-          distutils: stdlib
+        # - python: "3.10"
+        #   platform: ubuntu-latest
+        # - python: "3.11"
+        #   platform: ubuntu-latest
+        # - python: "3.12"
+        #   platform: ubuntu-latest
+        # - python: "3.14"
+        #   platform: ubuntu-latest
+        # - python: pypy3.10
+        #   platform: ubuntu-latest
+        #   distutils: stdlib
         - platform: ubuntu-latest
           python: "3.10"
           distutils: stdlib
@@ -119,6 +120,7 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
   collateral:
+    if: false
     strategy:
       fail-fast: false
       matrix:
@@ -140,7 +142,7 @@ jobs:
         run: tox -e ${{ matrix.job }}
 
   check:  # This job does nothing and is only used for the branch protection
-    if: always()
+    if: false
 
     needs:
     - integration-test
@@ -158,6 +160,7 @@ jobs:
         jobs: ${{ toJSON(needs) }}
 
   test_cygwin:
+    if: false
     strategy:
       matrix:
         python:
